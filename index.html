@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Tools | Calculator, Compass & Converter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="themes.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header with Navigation -->
+        <header class="bg-white dark:bg-gray-800 shadow-md">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
+                        <i class="fas fa-tools mr-2 text-blue-500"></i> Pro Tools
+                    </h1>
+                    
+                    <nav class="hidden md:flex space-x-1">
+                        <button id="nav-calculator" class="nav-btn active" data-target="calculator">
+                            <i class="fas fa-calculator mr-1"></i> Calculator
+                        </button>
+                        <button id="nav-compass" class="nav-btn" data-target="compass">
+                            <i class="fas fa-compass mr-1"></i> Compass
+                        </button>
+                        <button id="nav-converter" class="nav-btn" data-target="converter">
+                            <i class="fas fa-exchange-alt mr-1"></i> Converter
+                        </button>
+                        <button id="nav-history" class="nav-btn" data-target="history">
+                            <i class="fas fa-history mr-1"></i> History
+                        </button>
+                    </nav>
+                    
+                    <div class="flex items-center space-x-3">
+                        <button id="theme-toggle" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                            <i class="fas fa-moon dark:hidden"></i>
+                            <i class="fas fa-sun hidden dark:block text-yellow-300"></i>
+                        </button>
+                        <div class="relative">
+                            <select id="theme-selector" class="bg-gray-200 dark:bg-gray-700 rounded-md px-3 py-1 text-sm appearance-none">
+                                <option value="default">Default</option>
+                                <option value="professional">Professional</option>
+                                <option value="midnight">Midnight</option>
+                                <option value="nature">Nature</option>
+                            </select>
+                            <div class="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                <i class="fas fa-chevron-down text-gray-600 dark:text-gray-300 text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Navigation -->
+                <div class="md:hidden flex justify-around pt-3">
+                    <button id="mobile-calculator" class="mobile-nav-btn active" data-target="calculator">
+                        <i class="fas fa-calculator"></i>
+                        <span class="text-xs mt-1">Calc</span>
+                    </button>
+                    <button id="mobile-compass" class="mobile-nav-btn" data-target="compass">
+                        <i class="fas fa-compass"></i>
+                        <span class="text-xs mt-1">Compass</span>
+                    </button>
+                    <button id="mobile-converter" class="mobile-nav-btn" data-target="converter">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span class="text-xs mt-1">Convert</span>
+                    </button>
+                    <button id="mobile-history" class="mobile-nav-btn" data-target="history">
+                        <i class="fas fa-history"></i>
+                        <span class="text-xs mt-1">History</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-6">
+            <!-- Calculator Section -->
+            <div id="calculator-section" class="content-section">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-md mx-auto">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-calculator mr-2 text-blue-500"></i> Calculator
+                        </h2>
+                        <button id="show-history" class="text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+                            <i class="fas fa-history"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <!-- Calculator Display -->
+                        <div class="mb-4">
+                            <div id="calc-history" class="text-right text-gray-500 dark:text-gray-400 h-6 text-sm overflow-x-auto whitespace-nowrap"></div>
+                            <input id="calc-display" type="text" readonly 
+                                class="w-full p-3 text-right text-2xl sm:text-3xl font-semibold bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
+                        </div>
+                        
+                        <!-- Calculator Buttons -->
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="clearDisplay()" class="btn-calc bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200">AC</button>
+                            <button onclick="backspace()" class="btn-calc bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">⌫</button>
+                            <button onclick="toggleSign()" class="btn-calc bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">±</button>
+                            <button onclick="appendOperator('/')" class="btn-calc bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200">÷</button>
+                            
+                            <button onclick="appendNumber(7)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">7</button>
+                            <button onclick="appendNumber(8)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">8</button>
+                            <button onclick="appendNumber(9)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">9</button>
+                            <button onclick="appendOperator('*')" class="btn-calc bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200">×</button>
+                            
+                            <button onclick="appendNumber(4)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">4</button>
+                            <button onclick="appendNumber(5)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">5</button>
+                            <button onclick="appendNumber(6)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">6</button>
+                            <button onclick="appendOperator('-')" class="btn-calc bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200">-</button>
+                            
+                            <button onclick="appendNumber(1)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">1</button>
+                            <button onclick="appendNumber(2)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">2</button>
+                            <button onclick="appendNumber(3)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">3</button>
+                            <button onclick="appendOperator('+')" class="btn-calc bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200">+</button>
+                            
+                            <button onclick="appendNumber(0)" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white col-span-2">0</button>
+                            <button onclick="appendDecimal()" class="btn-calc bg-gray-50 dark:bg-gray-600 text-gray-800 dark:text-white">.</button>
+                            <button onclick="calculate()" class="btn-calc bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200">=</button>
+                        </div>
+                        
+                        <!-- Scientific Buttons -->
+                        <div class="grid grid-cols-5 gap-2 mt-3">
+                            <button onclick="scientificOperation('sqrt')" class="btn-calc-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200">√</button>
+                            <button onclick="scientificOperation('pow')" class="btn-calc-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200">x^y</button>
+                            <button onclick="scientificOperation('sin')" class="btn-calc-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200">sin</button>
+                            <button onclick="scientificOperation('cos')" class="btn-calc-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200">cos</button>
+                            <button onclick="scientificOperation('tan')" class="btn-calc-sm bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-200">tan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Compass Section -->
+            <div id="compass-section" class="content-section hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-md mx-auto">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-compass mr-2 text-blue-500"></i> Digital Compass
+                        </h2>
+                    </div>
+                    
+                    <div class="p-6 flex flex-col items-center">
+                        <!-- Compass Display -->
+                        <div class="relative w-48 h-48 sm:w-64 sm:h-64 mb-6">
+                            <div class="absolute inset-0 rounded-full bg-gray-100 dark:bg-gray-700 border-8 border-gray-200 dark:border-gray-600 shadow-inner"></div>
+                            <div class="absolute inset-0 rounded-full bg-white dark:bg-gray-800 border-4 border-gray-300 dark:border-gray-500 shadow-md"></div>
+                            
+                            <!-- Compass Directions -->
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="absolute top-0 text-center text-red-600 dark:text-red-400 font-bold">N</div>
+                                <div class="absolute right-0 text-center text-gray-700 dark:text-gray-300 font-bold">E</div>
+                                <div class="absolute bottom-0 text-center text-gray-700 dark:text-gray-300 font-bold">S</div>
+                                <div class="absolute left-0 text-center text-gray-700 dark:text-gray-300 font-bold">W</div>
+                            </div>
+                            
+                            <!-- Compass Needle -->
+                            <div id="compass-needle" class="absolute inset-0 flex items-center justify-center transition-transform duration-300">
+                                <svg id="needle" width="80%" height="80%" viewBox="0 0 100 100" class="transition-transform duration-300">
+                                    <path d="M50 10 L60 90 L50 70 L40 90 Z" fill="red" stroke="darkred" stroke-width="1"/>
+                                    <path d="M50 90 L60 10 L50 30 L40 10 Z" fill="blue" stroke="darkblue" stroke-width="1"/>
+                                    <circle cx="50" cy="50" r="5" fill="gold"/>
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        <!-- Compass Data -->
+                        <div class="w-full bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Heading</p>
+                                    <p id="heading-value" class="text-xl font-semibold dark:text-white">0°</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Direction</p>
+                                    <p id="direction-value" class="text-xl font-semibold dark:text-white">North</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Latitude</p>
+                                    <p id="latitude-value" class="text-xl font-semibold dark:text-white">0.0000</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">Longitude</p>
+                                    <p id="longitude-value" class="text-xl font-semibold dark:text-white">0.0000</p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Accuracy</p>
+                                <p id="accuracy-value" class="text-xl font-semibold dark:text-white">0 meters</p>
+                            </div>
+                            
+                            <button id="get-location" class="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center">
+                                <i class="fas fa-location-arrow mr-2"></i> Get Current Location
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Unit Converter Section -->
+            <div id="converter-section" class="content-section hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-md mx-auto">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-exchange-alt mr-2 text-blue-500"></i> Unit Converter
+                        </h2>
+                    </div>
+                    
+                    <div class="p-4">
+                        <!-- Converter Type Selector -->
+                        <div class="mb-4">
+                            <label for="converter-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Conversion Type</label>
+                            <select id="converter-type" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:text-white">
+                                <option value="length">Length</option>
+                                <option value="weight">Weight</option>
+                                <option value="temperature">Temperature</option>
+                                <option value="area">Area</option>
+                                <option value="volume">Volume</option>
+                                <option value="speed">Speed</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Converter Input -->
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <input id="converter-input" type="number" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:text-white" placeholder="Enter value">
+                            </div>
+                            <div>
+                                <select id="converter-from" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:text-white">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Converter Output -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <input id="converter-output" type="text" readonly class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-600 dark:text-white">
+                            </div>
+                            <div>
+                                <select id="converter-to" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 focus:ring-blue-500 focus:border-blue-500 dark:text-white">
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Swap Button -->
+                        <button id="swap-units" class="mt-4 w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white py-2 px-4 rounded-lg transition-colors duration-300 flex items-center justify-center">
+                            <i class="fas fa-exchange-alt mr-2"></i> Swap Units
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Section -->
+            <div id="history-section" class="content-section hidden">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden max-w-md mx-auto">
+                    <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white flex items-center">
+                            <i class="fas fa-history mr-2 text-blue-500"></i> Calculation History
+                        </h2>
+                        <button id="clear-history" class="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm">
+                            <i class="fas fa-trash-alt mr-1"></i> Clear
+                        </button>
+                    </div>
+                    
+                    <div id="history-list" class="max-h-96 overflow-y-auto p-4 space-y-2">
+                        <!-- History items will be added here -->
+                        <div class="text-center text-gray-500 dark:text-gray-400 py-4">No history yet</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4">
+            <div class="container mx-auto px-4 text-center text-gray-600 dark:text-gray-400 text-sm">
+                <p>Professional Tools &copy; 2023 | Calculator, Compass & Unit Converter</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="navigation.js"></script>
+    <script src="calculator.js"></script>
+    <script src="compass.js"></script>
+    <script src="theme-switcher.js"></script>
+    <script src="history.js"></script>
+    <script src="unit-converter.js"></script>
+</body>
+</html>

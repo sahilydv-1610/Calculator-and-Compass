@@ -1,0 +1,115 @@
+/* Default Theme (System Preferences) */
+:root {
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --secondary: #10b981;
+    --accent: #8b5cf6;
+    --background: #f9fafb;
+    --text: #111827;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --nav-bg: #ffffff;
+}
+
+.dark {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary: #059669;
+    --accent: #7c3aed;
+    --background: #111827;
+    --text: #f9fafb;
+    --card: #1f2937;
+    --border: #374151;
+    --nav-bg: #1f2937;
+}
+
+/* Professional Theme */
+.theme-professional {
+    --primary: #1d4ed8;
+    --primary-hover: #1e40af;
+    --secondary: #047857;
+    --accent: #6d28d9;
+    --background: #f3f4f6;
+    --text: #111827;
+    --card: #ffffff;
+    --border: #d1d5db;
+    --nav-bg: #ffffff;
+}
+
+.dark.theme-professional {
+    --primary: #2563eb;
+    --primary-hover: #1e40af;
+    --secondary: #059669;
+    --accent: #7c3aed;
+    --background: #111827;
+    --text: #f9fafb;
+    --card: #1f2937;
+    --border: #374151;
+    --nav-bg: #1f2937;
+}
+
+/* Midnight Theme */
+.theme-midnight {
+    --primary: #4338ca;
+    --primary-hover: #3730a3;
+    --secondary: #0f766e;
+    --accent: #7e22ce;
+    --background: #0f172a;
+    --text: #e2e8f0;
+    --card: #1e293b;
+    --border: #334155;
+    --nav-bg: #1e293b;
+}
+
+/* Nature Theme */
+.theme-nature {
+    --primary: #166534;
+    --primary-hover: #14532d;
+    --secondary: #4d7c0f;
+    --accent: #65a30d;
+    --background: #f7fee7;
+    --text: #1a2e05;
+    --card: #ecfccb;
+    --border: #d9f99d;
+    --nav-bg: #ecfccb;
+}
+
+.dark.theme-nature {
+    --primary: #166534;
+    --primary-hover: #14532d;
+    --secondary: #4d7c0f;
+    --accent: #65a30d;
+    --background: #1a2e05;
+    --text: #ecfccb;
+    --card: #1a2e05;
+    --border: #365314;
+    --nav-bg: #1a2e05;
+}
+
+/* Apply Theme Colors */
+body {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+.bg-card {
+    background-color: var(--card);
+}
+
+.border-card {
+    border-color: var(--border);
+}
+
+header {
+    background-color: var(--nav-bg);
+}
+
+.nav-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.mobile-nav-btn.active {
+    background-color: var(--primary);
+    color: white;
+}
